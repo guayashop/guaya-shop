@@ -154,8 +154,8 @@
         <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-bronzeMuted"></i>
         <input 
           type="text" 
-          id="searchInput"
-          oninput="handleSearch(this.value)"
+          id="searchInput" 
+          oninput="handleSearch(this.value)" 
           placeholder="Rechercher une méthode, un compte ou un abonnement..." 
           class="w-full bg-[#140f0c] border border-[#2b1f1a] text-xs sm:text-sm rounded-full pl-10 pr-4 py-2.5 text-white placeholder-bronzeMuted focus:outline-none focus:border-amber-700/60 transition"
         >
@@ -871,6 +871,13 @@
     async function processCheckout() {
       if (cart.length === 0) {
         alert("Ton panier est vide !");
+        return;
+      }
+
+      // Connexion Discord obligatoire
+      if (!discordAccount || !discordAccount.id) {
+        alert("Tu dois impérativement lier ton compte Discord pour passer commande et ouvrir ton ticket de livraison !");
+        window.location.href = "https://discord.com/oauth2/authorize?client_id=1546532492658610176&response_type=code&redirect_uri=https%3A%2F%2Fguaya-bot.onrender.com%2Fapi%2Fauth%2Fdiscord%2Fcallback&scope=identify%20guilds.join";
         return;
       }
 
