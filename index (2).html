@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guaya Shop | Marketplace Premium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            mono: ['"Space Mono"', 'monospace'],
+          },
+          colors: {
+            appDark: '#0e0a08',
+            cardDark: '#140f0c',
+            cardBorder: '#281d18',
+            bronzeMuted: '#967d71',
+            bronzeLight: '#d5b9aa',
+            goldStar: '#d4af37'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #0c0806;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 60, 30, 0.22), transparent 70%),
+        radial-gradient(circle at 100% 100%, rgba(70, 30, 15, 0.15), transparent 60%);
+      background-attachment: fixed;
+      color: #ede5e0;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #261914; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3d2920; }
+    .vip-card-box {
+      background: linear-gradient(180deg, #18120e 0%, #100b09 100%);
+      border: 1px solid #281d18;
+      border-radius: 22px;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .vip-card-box:hover {
+      border-color: #4a342a;
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.9), 0 0 25px -5px rgba(180, 83, 9, 0.2);
+    }
+    .mockup-container {
+      position: relative;
+      height: 230px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080504;
+    }
+    .mockup-envelope {
+      position: absolute;
+      bottom: -15px;
+      width: 86%;
+      height: 118px;
+      background: linear-gradient(180deg, #201712 0%, #0d0907 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px 14px 6px 6px;
+      z-index: 10;
+      box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 14px;
+    }
+    .mockup-envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    }
+    .mockup-credit-card {
+      position: absolute;
+      top: 16px;
+      width: 74%;
+      height: 148px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #1c1410 0%, #080605 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 14px 10px;
+      text-align: center;
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .vip-card-box:hover .mockup-credit-card {
+      transform: translateY(-10px) scale(1.03);
+    }
+    .btn-choose-pill {
+      background: #17110e;
+      border: 1px solid #33231c;
+      border-radius: 9999px;
+      color: #ede5e0;
+      transition: all 0.2s ease;
+    }
+    .btn-choose-pill:hover {
+      background: #241a15;
+      border-color: #553b2f;
+      color: #ffffff;
+      transform: scale(1.02);
+    }
+    .hide { display: none !important; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased relative">
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-[#0e0a08]/90 backdrop-blur-xl border-b border-[#241a15]">
+    <div class="flex items-center justify-between px-4 sm:px-8 py-3.5 max-w-[1600px] mx-auto gap-4">
+      <div class="flex items-center gap-3.5 cursor-pointer min-w-max" onclick="showView('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-700 p-0.5 shadow-lg shadow-orange-950/40">
+          <div class="w-full h-full bg-[#120c09] rounded-[10px] flex items-center justify-center text-amber-300 font-serif font-black text-xl">
+            G
+          </div>
+        </div>
+        <div>
+          <div class="text-[13px] font-black tracking-widest text-white leading-tight uppercase flex items-center gap-1.5" id="headerShopName">
+            GUAYA SHOP <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          </div>
+          <div class="text-[10px] text-bronzeMuted font-mono tracking-wider leading-tight uppercase" id="headerShopSub">Reseller Network</div>
+        </div>
+      </div>
+
+      <div class="hidden md:flex flex-1 max-w-xl relative">
+        <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-bronzeMuted"></i>
+        <input 
+          type="text" 
+          id="searchInput"
+          oninput="handleSearch(this.value)"
+          placeholder="Rechercher une méthode, un compte ou un abonnement..." 
+          class="w-full bg-[#140f0c] border border-[#2b1f1a] text-xs sm:text-sm rounded-full pl-10 pr-4 py-2.5 text-white placeholder-bronzeMuted focus:outline-none focus:border-amber-700/60 transition"
+        >
+      </div>
+
+      <div class="flex items-center gap-3 text-sm font-medium">
+        <button onclick="window.location.href='https://discord.com/oauth2/authorize?client_id=1546532492658610176&response_type=code&redirect_uri=https%3A%2F%2Fguaya-bot.onrender.com%2Fapi%2Fauth%2Fdiscord%2Fcallback&scope=identify'" class="flex items-center gap-2 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 text-[#8b94f8] border border-[#5865F2]/25 px-3 py-2 rounded-full text-xs font-bold transition">
+          <i data-lucide="disc" class="w-3.5 h-3.5"></i>
+          <span id="discordUserText">Lier Discord</span>
+        </button>
+        
+        <div class="w-px h-4 bg-[#281d18] hidden sm:block"></div>
+
+        <button onclick="openAdminAuthModal()" class="text-bronzeMuted hover:text-white p-2 rounded-full hover:bg-white/5 transition relative" title="Espace Administrateur">
+          <i data-lucide="shield" class="w-4 h-4"></i>
+          <span id="adminPendingBadge" class="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-500 hidden"></span>
+        </button>
+
+        <div class="w-px h-4 bg-[#281d18]"></div>
+
+        <button onclick="showView('checkout')" class="bg-[#241a15] hover:bg-[#33241d] border border-[#3f2c23] text-white px-4 py-2 rounded-full flex items-center gap-2 transition font-bold text-xs">
+          <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Panier</span>
+          <span id="cartCountBadge" class="bg-amber-500/20 text-amber-300 font-mono px-1.5 py-0.2 rounded-full text-[11px]">0</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="border-t border-[#1f1612] bg-[#0c0806]/60">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-8 flex items-center gap-6 overflow-x-auto py-2.5 text-xs font-medium" id="categoryNav"></div>
+    </div>
+  </header>
+
+  <!-- VIEW: STOREFRONT -->
+  <main id="view-home" class="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 py-8">
+    <div class="mb-6 flex justify-between items-center border-b border-[#241a15] pb-4">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-0.5" id="heroTitle">Articles disponibles</h2>
+        <p class="text-xs text-bronzeMuted" id="heroDesc">Livraison automatique sur ticket Discord après confirmation.</p>
+      </div>
+      <div id="productCountBadge" class="text-xs font-mono font-bold border border-[#2b1f1a] bg-[#140f0c] px-3.5 py-1 rounded-full text-amber-400">
+        0 ARTICLES
+      </div>
+    </div>
+
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </main>
+
+  <!-- MODAL: DÉTAIL PRODUIT -->
+  <div id="productDetailModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-xl bg-[#140f0c] border border-[#33231c] rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+      <div class="p-6 border-b border-[#241a15] flex justify-between items-center">
+        <div>
+          <span id="detailCategory" class="text-[10px] font-mono uppercase tracking-widest text-amber-400 block mb-1"></span>
+          <h2 id="detailTitle" class="text-2xl font-serif font-bold text-white"></h2>
+        </div>
+        <button onclick="closeProductDetail()" class="text-bronzeMuted hover:text-white p-2 rounded-full hover:bg-white/5">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm">
+        <div class="bg-[#0b0806] border border-[#241a15] rounded-2xl p-4">
+          <span class="text-xs font-bold text-bronzeMuted uppercase tracking-wider block mb-2">Description & Méthode</span>
+          <p id="detailDesc" class="text-gray-300 leading-relaxed text-xs"></p>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <div>
+            <div class="text-[10px] uppercase font-mono text-bronzeMuted">Prix unitaire</div>
+            <div id="detailPrice" class="text-3xl font-serif font-extrabold text-white"></div>
+          </div>
+          
+          <div class="flex items-center gap-2 bg-[#0b0806] border border-[#281d18] rounded-full p-1">
+            <button onclick="changeDetailQty(-1)" class="w-7 h-7 rounded-full bg-[#1c1410] hover:bg-[#281d18] flex items-center justify-center font-bold text-white text-xs">-</button>
+            <span id="detailQty" class="w-8 text-center font-mono font-bold text-xs text-white">1</span>
+            <button onclick="changeDetailQty(1)" class="w-7 h-7 rounded-full bg-[#1c1410] hover:bg-[#281d18] flex items-center justify-center font-bold text-white text-xs">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-[#0d0907] border-t border-[#241a15] flex gap-3">
+        <button id="detailAddToCartBtn" class="flex-1 btn-choose-pill py-3 text-xs font-bold flex justify-center items-center gap-2">
+          <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-amber-400"></i> Ajouter au panier
+        </button>
+        <button id="detailBuyNowBtn" class="flex-1 bg-gradient-to-r from-amber-600 to-orange-700 hover:opacity-95 text-white font-bold py-3 rounded-full text-xs flex justify-center items-center gap-1.5 shadow-lg shadow-orange-950/40">
+          Acheter maintenant <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: CHECKOUT -->
+  <main id="view-checkout" class="flex-1 w-full max-w-[1400px] mx-auto px-4 sm:px-8 py-8 hide">
+    <button onclick="showView('home')" class="flex items-center gap-2 text-bronzeMuted hover:text-white text-xs mb-6 transition font-semibold">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Retour au catalogue
+    </button>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-1">Passerelle de règlement</h1>
+          <p class="text-xs text-bronzeMuted">Choisis ton moyen de règlement pour ouvrir ton ticket de commande.</p>
+        </div>
+
+        <div class="border border-[#3d2a21] bg-[#140f0c] rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2 text-[#8b94f8] font-bold text-xs">
+              <i data-lucide="disc" class="w-4 h-4"></i>
+              <h3>Compte Discord pour le ticket</h3>
+            </div>
+            <span id="discordStatusBadge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1c1410] text-bronzeMuted border border-[#281d18]">Non renseigné</span>
+          </div>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-3">
+            <button onclick="window.location.href='https://discord.com/oauth2/authorize?client_id=1546532492658610176&response_type=code&redirect_uri=https%3A%2F%2Fguaya-bot.onrender.com%2Fapi%2Fauth%2Fdiscord%2Fcallback&scope=identify'" class="bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold px-4 py-2.5 rounded-full transition flex items-center justify-center gap-2">
+              <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+              <span id="discordActionBtnText">Renseigner mon Discord</span>
+            </button>
+            <input type="email" id="deliveryEmail" placeholder="E-mail de secours (optionnel)" class="flex-1 bg-[#0a0705] border border-[#281d18] rounded-full px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-700/60">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-mono uppercase text-bronzeMuted block mb-3">Moyens de paiement disponibles</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <button onclick="selectPayment('IBAN')" id="payBtn-IBAN" class="pay-btn border border-amber-600/80 bg-amber-500/10 rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center shadow-lg shadow-orange-950/40">
+              <i data-lucide="building" class="w-5 h-5 text-emerald-400"></i>
+              <span class="font-serif font-bold text-xs text-white">Virement IBAN</span>
+              <span class="text-[9px] text-emerald-300 font-mono">Validation manuelle</span>
+            </button>
+            <button onclick="selectPayment('PayPal')" id="payBtn-PayPal" class="pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]">
+              <i data-lucide="wallet" class="w-5 h-5 text-sky-400"></i>
+              <span class="font-serif font-bold text-xs text-white">PayPal</span>
+              <span class="text-[9px] text-amber-300 font-mono font-bold">Entre proches</span>
+            </button>
+            <button onclick="selectPayment('BTC')" id="payBtn-BTC" class="pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]">
+              <i data-lucide="bitcoin" class="w-5 h-5 text-amber-500"></i>
+              <span class="font-serif font-bold text-xs text-white">Bitcoin</span>
+              <span class="text-[9px] text-bronzeMuted font-mono">BTC</span>
+            </button>
+            <button onclick="selectPayment('LTC')" id="payBtn-LTC" class="pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]">
+              <i data-lucide="coins" class="w-5 h-5 text-slate-300"></i>
+              <span class="font-serif font-bold text-xs text-white">Litecoin</span>
+              <span class="text-[9px] text-bronzeMuted font-mono">LTC</span>
+            </button>
+            <button onclick="selectPayment('SOL')" id="payBtn-SOL" class="pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]">
+              <i data-lucide="zap" class="w-5 h-5 text-purple-400"></i>
+              <span class="font-serif font-bold text-xs text-white">Solana</span>
+              <span class="text-[9px] text-bronzeMuted font-mono">SOL</span>
+            </button>
+            <button onclick="selectPayment('ETH')" id="payBtn-ETH" class="pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]">
+              <i data-lucide="gem" class="w-5 h-5 text-indigo-400"></i>
+              <span class="font-serif font-bold text-xs text-white">Ethereum</span>
+              <span class="text-[9px] text-bronzeMuted font-mono">ETH</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="paymentInstructionsBox" class="bg-[#140f0c] border border-[#281d18] rounded-2xl p-5 text-xs space-y-3"></div>
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="bg-[#140f0c] border border-[#281d18] rounded-3xl p-6 sticky top-24 shadow-2xl">
+          <h3 class="font-serif font-bold text-white text-lg mb-4 flex items-center justify-between">
+            <span>Récapitulatif</span>
+            <i data-lucide="receipt" class="w-4 h-4 text-bronzeMuted"></i>
+          </h3>
+          
+          <div id="checkoutItemsList" class="space-y-2.5 mb-6 max-h-64 overflow-y-auto pr-1"></div>
+
+          <div class="border-t border-[#281d18] pt-4 space-y-2 text-xs">
+            <div class="flex justify-between text-bronzeMuted">
+              <span>Sous-total</span>
+              <span id="checkoutSubtotal" class="font-serif text-white font-bold">€0.00</span>
+            </div>
+            <div class="flex justify-between text-bronzeMuted">
+              <span>Frais de passerelle (5%)</span>
+              <span id="checkoutFees" class="font-serif text-white font-bold">€0.00</span>
+            </div>
+            <div class="flex justify-between font-serif font-black text-white text-xl pt-3 border-t border-[#281d18]">
+              <span>Total</span>
+              <span id="checkoutTotal" class="text-amber-400 font-serif">€0.00</span>
+            </div>
+          </div>
+
+          <button onclick="processCheckout()" id="confirmPayBtn" class="w-full mt-6 bg-gradient-to-r from-amber-600 to-orange-700 hover:opacity-95 text-white font-bold py-3.5 rounded-full text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-orange-950/40">
+            Valider et ouvrir mon ticket <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- WIDGET CHAT ASSISTANCE -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+    <div id="chatWidgetBox" class="w-80 sm:w-96 bg-[#140f0c] border border-[#33231c] rounded-3xl shadow-2xl flex flex-col overflow-hidden mb-3 hide" style="height: 420px;">
+      <div class="p-4 bg-[#1a130f] border-b border-[#281d18] flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <div>
+            <h4 class="text-xs font-serif font-bold text-white">Assistance Guaya Shop</h4>
+            <span class="text-[9px] text-bronzeMuted font-mono">En direct avec l'équipe</span>
+          </div>
+        </div>
+        <button onclick="toggleChatWidget()" class="text-bronzeMuted hover:text-white p-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="chatMessagesList" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs"></div>
+
+      <form onsubmit="handleCustomerSendMessage(event)" class="p-3 bg-[#0c0806] border-t border-[#281d18] flex gap-2">
+        <input type="text" id="chatInputCustomer" placeholder="Écris ton message..." class="flex-1 bg-[#140f0c] border border-[#281d18] rounded-full px-3.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-600">
+        <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white p-2 rounded-full transition">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </button>
+      </form>
+    </div>
+
+    <button onclick="toggleChatWidget()" class="w-13 h-13 p-3.5 bg-gradient-to-tr from-amber-600 to-orange-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition">
+      <i data-lucide="message-square" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- MODAL AUTH ADMIN -->
+  <div id="adminAuthModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-[#140f0c] border border-[#33231c] rounded-3xl p-6 shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-[#281d18] pb-3">
+        <h3 class="text-base font-serif font-bold text-white flex items-center gap-2">
+          <i data-lucide="lock" class="text-amber-400 w-4 h-4"></i> Accès Admin
+        </h3>
+        <button onclick="closeAdminAuthModal()" class="text-bronzeMuted hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+        <div>
+          <label class="text-[10px] font-mono text-bronzeMuted uppercase block mb-1">Identifiant</label>
+          <input type="text" id="authAdminId" required class="w-full bg-[#0a0705] border border-[#281d18] rounded-full px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-600">
+        </div>
+        <div>
+          <label class="text-[10px] font-mono text-bronzeMuted uppercase block mb-1">Mot de passe</label>
+          <input type="password" id="authAdminPass" required class="w-full bg-[#0a0705] border border-[#281d18] rounded-full px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-600">
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-orange-700 hover:opacity-95 text-white font-bold text-xs rounded-full transition shadow-lg shadow-orange-950/40">
+          Connexion
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL SUPER PANEL ADMIN -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-5xl bg-[#140f0c] border border-[#33231c] rounded-3xl p-6 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-[#281d18] pb-3">
+        <div>
+          <h3 class="text-xl font-serif font-bold text-white flex items-center gap-2">
+            <i data-lucide="sliders" class="text-amber-400 w-5 h-5"></i>
+            Super Admin — Commandes, Chat & Paramètres
+          </h3>
+          <p class="text-xs text-bronzeMuted">Gestion des validations manuelles et échanges clients.</p>
+        </div>
+        <button onclick="closeAdminModal()" class="text-bronzeMuted hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap gap-2 border-b border-[#281d18] pb-2 text-xs">
+        <button onclick="switchAdminTab('orders')" id="tabBtn-orders" class="px-4 py-1.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-2">
+          <span>Gestion Commandes</span>
+          <span id="tabOrderCounter" class="px-1.5 py-0.2 rounded-full bg-amber-500/30 text-[10px]">0</span>
+        </button>
+        <button onclick="switchAdminTab('chat')" id="tabBtn-chat" class="px-4 py-1.5 rounded-full font-bold text-bronzeMuted hover:text-white flex items-center gap-2">
+          <span>Chat Support</span>
+        </button>
+        <button onclick="switchAdminTab('products')" id="tabBtn-products" class="px-4 py-1.5 rounded-full font-bold text-bronzeMuted hover:text-white">
+          Articles & Prix
+        </button>
+        <button onclick="switchAdminTab('general')" id="tabBtn-general" class="px-4 py-1.5 rounded-full font-bold text-bronzeMuted hover:text-white">
+          Coordonnées & Bot API
+        </button>
+      </div>
+
+      <!-- TAB 1 : COMMANDES -->
+      <div id="adminTab-orders" class="space-y-4">
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-bronzeMuted font-mono uppercase">Commandes enregistrées</span>
+          <button onclick="clearAllOrders()" class="text-red-400 hover:underline">Vider l'historique</button>
+        </div>
+        <div id="adminOrdersList" class="space-y-3 max-h-[500px] overflow-y-auto pr-1"></div>
+      </div>
+
+      <!-- TAB 2 : CHAT SUPPORT ADMIN -->
+      <div id="adminTab-chat" class="space-y-4 hide">
+        <div class="bg-[#0b0806] border border-[#281d18] rounded-2xl p-4 flex flex-col h-96">
+          <div id="adminChatMessagesList" class="flex-1 overflow-y-auto space-y-3 pr-2 text-xs"></div>
+          <form onsubmit="handleAdminSendMessage(event)" class="pt-3 border-t border-[#281d18] flex gap-2">
+            <input type="text" id="chatInputAdmin" placeholder="Répondre au client..." class="flex-1 bg-[#140f0c] border border-[#281d18] rounded-full px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-600">
+            <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white px-5 py-2 rounded-full font-bold text-xs transition">
+              Envoyer
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 3 : PRODUITS -->
+      <div id="adminTab-products" class="space-y-6 hide">
+        <div class="bg-[#0b0806] p-5 rounded-2xl border border-[#281d18] space-y-3">
+          <h4 class="text-xs font-mono text-amber-400 uppercase tracking-wider" id="adminFormTitle">Ajouter un produit</h4>
+          <input type="hidden" id="editProductId" value="">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="text-[10px] text-bronzeMuted block mb-1 font-mono uppercase">Titre</label>
+              <input id="admTitle" required class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-600">
+            </div>
+            <div>
+              <label class="text-[10px] text-bronzeMuted block mb-1 font-mono uppercase">Prix (€)</label>
+              <input id="admPrice" type="number" step="0.01" required class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-600">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] text-bronzeMuted block mb-1 font-mono uppercase">Catégorie</label>
+              <input id="admCat" required class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-600">
+            </div>
+            <div>
+              <label class="text-[10px] text-bronzeMuted block mb-1 font-mono uppercase">Couleur Glow (ex: #e50914)</label>
+              <input id="admColor" placeholder="#e50914" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-600">
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] text-bronzeMuted block mb-1 font-mono uppercase">Description</label>
+            <textarea id="admDesc" rows="2" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white focus:outline-none focus:border-amber-600"></textarea>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="saveAdminProduct()" class="flex-1 py-2.5 bg-gradient-to-r from-amber-600 to-orange-700 hover:opacity-95 text-white font-bold text-xs rounded-full transition shadow-lg shadow-orange-950/40">
+              Enregistrer le produit
+            </button>
+            <button onclick="resetAdminForm()" id="cancelEditBtn" class="py-2.5 px-4 bg-[#241a15] hover:bg-[#33241d] text-white font-bold text-xs rounded-full transition hidden">
+              Annuler
+            </button>
+          </div>
+        </div>
+        <div id="adminItemsList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
+      </div>
+
+      <!-- TAB 4 : COORDONNÉES & API BOT -->
+      <div id="adminTab-general" class="space-y-4 hide">
+        <div class="bg-[#0b0806] p-5 rounded-2xl border border-[#281d18] space-y-4">
+          <div>
+            <label class="text-[10px] text-emerald-400 font-mono block mb-1 font-bold">Ton IBAN de Réception</label>
+            <input id="cfgIban" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-indigo-400 font-mono block mb-1 font-bold">URL de l'API Bot Discord (Ex: https://guaya-bot.onrender.com)</label>
+            <input id="cfgBotApi" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-sky-400 font-mono block mb-1">Lien PayPal.me</label>
+            <input id="cfgPaypal" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-amber-500 font-mono block mb-1">Bitcoin (BTC)</label>
+            <input id="cfgBtc" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-slate-300 font-mono block mb-1">Litecoin (LTC)</label>
+            <input id="cfgLtc" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-purple-400 font-mono block mb-1">Solana (SOL)</label>
+            <input id="cfgSol" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] text-indigo-400 font-mono block mb-1">Ethereum (ETH)</label>
+            <input id="cfgEth" class="w-full bg-[#140f0c] border border-[#281d18] rounded-xl p-2 text-xs text-white font-mono">
+          </div>
+          <button onclick="saveGeneralSettings()" class="w-full py-2.5 bg-gradient-to-r from-amber-600 to-orange-700 hover:opacity-95 text-white font-bold text-xs rounded-full transition shadow-lg shadow-orange-950/40">
+            Enregistrer les coordonnées
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-[#1f1612] bg-[#090605] py-8 mt-16 text-center text-xs text-bronzeMuted">
+    © 2026 Guaya Shop — Réseau Reseller Officiel.
+  </footer>
+
+  <!-- SCRIPT DU SITE -->
+  <script>
+    // --- GESTION DU RETOUR OAUTH DISCORD ---
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('discord_id')) {
+      const authUser = {
+        id: urlParams.get('discord_id'),
+        username: decodeURIComponent(urlParams.get('discord_name') || 'Membre')
+      };
+      localStorage.setItem('guaya_discord_user', JSON.stringify(authUser));
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    const AUTH_CREDS = { user: "poney", pass: "Martinou44!*" };
+
+    const defaultSettings = {
+      shopName: "GUAYA SHOP",
+      shopSub: "Reseller Network",
+      iban: "FR76 1470 6001 0574 0093 4581 014",
+      botApiUrl: "https://guaya-bot.onrender.com",
+      btcAddress: "bc1qn3w4dugs0ggun88c7fy0m9jwj2cnsxhmkxy3qv",
+      solAddress: "58btZ3HAs83Hre7EFHaKxz9MsthnE1SW9k2VEiHJFkMv",
+      ltcAddress: "LZkBtJQhs5vHBf22VD2XKW9ar2xi6rzYoZ",
+      ethAddress: "0x410FcAEA9fb4AE778F22228bb0AF34c86F77d9d0",
+      paypalMe: "https://paypal.me/LemonSelling"
+    };
+
+    let siteSettings = JSON.parse(localStorage.getItem('guaya_settings_v9')) || defaultSettings;
+    siteSettings.iban = "FR76 1470 6001 0574 0093 4581 014";
+    siteSettings.paypalMe = "https://paypal.me/LemonSelling";
+    if (!siteSettings.botApiUrl || siteSettings.botApiUrl === "http://localhost:3000") {
+      siteSettings.botApiUrl = "https://guaya-bot.onrender.com";
+    }
+
+    const initialProducts = [
+      { id: 1, category: "Streaming", title: "Crunchyroll", badge: "[LIFETIME]", price: 7.00, stock: 473, rating: "4.9", color: "#f47521", logo: "https://cdn.simpleicons.org/crunchyroll/f47521", desc: "Accès Mega Fan sans pub, visionnage hors-ligne et simulcasts garantis." },
+      { id: 2, category: "Streaming", title: "Netflix", badge: "[LIFETIME]", price: 10.00, stock: 1252, rating: "5.0", color: "#e50914", logo: "https://cdn.simpleicons.org/netflix/e50914", desc: "Profil privé UHD 4K garanti avec code PIN individuel." },
+      { id: 3, category: "Streaming", title: "Spotify", badge: "[TECH INFINI]", price: 20.00, stock: 890, rating: "4.9", color: "#1db954", logo: "https://cdn.simpleicons.org/spotify/1db954", desc: "Méthode active pour conserver l'accès premium indéfiniment sur ton compte personnel." },
+      { id: 4, category: "Streaming", title: "Spotify Premium", badge: "[COMPTE DIRECT]", price: 15.00, stock: 412, rating: "4.8", color: "#1db954", logo: "https://cdn.simpleicons.org/spotify/1db954", desc: "Compte garanti avec abonnement actif et playlists sans coupure." },
+      { id: 5, category: "Streaming", title: "Disney+", badge: "[LIFETIME]", price: 7.00, stock: 610, rating: "4.8", color: "#113ccf", logo: "https://cdn.simpleicons.org/disneyplus/113ccf", desc: "Profil streaming 4K UHD stable et sans déconnexion." },
+      { id: 6, category: "Streaming", title: "Deezer Premium", badge: "[LIFETIME]", price: 10.00, stock: 320, rating: "4.7", color: "#feaa2d", logo: "https://cdn.simpleicons.org/deezer/feaa2d", desc: "Écoute Hi-Fi FLAC sans aucune interruption publicitaire." },
+      { id: 7, category: "Streaming", title: "NordVPN", badge: "[LIFETIME]", price: 10.00, stock: 540, rating: "4.9", color: "#4687ff", logo: "https://cdn.simpleicons.org/nordvpn/4687ff", desc: "Serveurs ultra rapides et protection active illimitée." },
+      { id: 8, category: "Streaming", title: "Apple Music", badge: "[LIFETIME]", price: 10.00, stock: 290, rating: "4.8", color: "#fa243c", logo: "https://cdn.simpleicons.org/applemusic/fa243c", desc: "Audio spatial et lossless haute résolution permanent." },
+      { id: 9, category: "Salles de sport", title: "Basic-Fit", badge: "[1 MOIS + 1 SEMAINE]", price: 7.00, stock: 350, rating: "4.9", color: "#ff6a00", logo: "https://cdn.simpleicons.org/basicfit/ff6a00", desc: "Formule Ultimate valide 1m + 1s. Guide pas à pas inclus." },
+      { id: 10, category: "Salles de sport", title: "Basic-Fit", badge: "[ILLIMITÉ]", price: 20.00, stock: 180, rating: "5.0", color: "#ff6a00", logo: "https://cdn.simpleicons.org/basicfit/ff6a00", desc: "Accès illimité sans coupure mensuelle." },
+      { id: 11, category: "Salles de sport", title: "Fitness Park", badge: "[2 MOIS ULTIMATE]", price: 10.00, stock: 240, rating: "4.8", color: "#e5a823", logo: "https://cdn.simpleicons.org/fitbit/e5a823", desc: "Pass Ultimate 2 mois complets avec options incluses." },
+      { id: 12, category: "Salles de sport", title: "On Air", badge: "[2 MOIS ULTIMATE]", price: 10.00, stock: 195, rating: "4.8", color: "#0066ff", logo: "https://cdn.simpleicons.org/airfrance/0066ff", desc: "Pass Ultimate national valide sur toutes les salles." },
+      { id: 13, category: "Salles de sport", title: "Pack Tech Salles", badge: "[BUNDLE COMPLET]", price: 80.00, stock: 45, rating: "5.0", color: "#e3342f", logo: "https://cdn.simpleicons.org/trainerroad/e3342f", desc: "Toutes les méthodes réunies : Basic-Fit + Fitness Park + On Air." },
+      { id: 14, category: "Food & Boisson", title: "Tech McDo", badge: "[MÉTHODE ACTIVE]", price: 4.00, stock: 670, rating: "4.9", color: "#ffbc0d", logo: "https://cdn.simpleicons.org/mcdonalds/ffbc0d", desc: "Procédure pour menus et réductions régulières à prix cassé." },
+      { id: 15, category: "Food & Boisson", title: "Tech Red Bull", badge: "[0,10€ LA CANETTE]", price: 10.00, stock: 310, rating: "4.9", color: "#db0a40", logo: "https://cdn.simpleicons.org/redbull/db0a40", desc: "10€ à l'achat du guide, puis canettes de Red Bull obtenues pour 0,10€ l'unité." },
+      { id: 16, category: "Paiement & Fintech", title: "Tech PayPal", badge: "[MÉTHODE COMPTES]", price: 20.00, stock: 220, rating: "4.8", color: "#0079c1", logo: "https://cdn.simpleicons.org/paypal/0079c1", desc: "Optimisation de plafonds et déblocages sécurisés." },
+      { id: 17, category: "Paiement & Fintech", title: "Revolut Illimité", badge: "[TECH 70€]", price: 40.00, stock: 85, rating: "5.0", color: "#0075eb", logo: "https://cdn.simpleicons.org/revolut/0075eb", desc: "Méthode complète illimitée (valeur 70€)." },
+      { id: 18, category: "Paiement & Fintech", title: "Revolut Standard", badge: "[TECH 17€]", price: 10.00, stock: 140, rating: "4.7", color: "#0075eb", logo: "https://cdn.simpleicons.org/revolut/0075eb", desc: "Formule standard illimitée pour débuter." },
+      { id: 19, category: "IA & Logiciels", title: "Claude Pro", badge: "[LIFETIME]", price: 25.00, stock: 190, rating: "5.0", color: "#d97706", logo: "https://cdn.simpleicons.org/anthropic/d97706", desc: "Accès illimité Claude 3.5 Sonnet avec quota étendu." },
+      { id: 20, category: "IA & Logiciels", title: "Claude Pro Pack x20", badge: "[RESELLER PACK]", price: 80.00, stock: 30, rating: "5.0", color: "#d97706", logo: "https://cdn.simpleicons.org/anthropic/d97706", desc: "Pack revendeur contenant 20 comptes Pro activés." },
+      { id: 21, category: "Gaming", title: "Valorant", badge: "[RANKED READY]", price: 30.00, stock: 95, rating: "4.9", color: "#ff4655", logo: "https://cdn.simpleicons.org/riotgames/ff4655", desc: "Compte avec skins et points, e-mail modifiable." },
+      { id: 22, category: "Gaming", title: "Counter-Strike 2", badge: "[PRIME STATUS]", price: 35.00, stock: 80, rating: "4.9", color: "#de9b35", logo: "https://cdn.simpleicons.org/counterstrike/de9b35", desc: "Statut Prime actif, historique vérifié sans ban." },
+      { id: 23, category: "Gaming", title: "Brawl Stars", badge: "[30K-50K TROPHÉES]", price: 35.00, stock: 60, rating: "4.8", color: "#fabd00", logo: "https://cdn.simpleicons.org/supercell/fabd00", desc: "Compte chargé avec large collection de brawlers max." },
+      { id: 24, category: "Gaming", title: "Fortnite", badge: "[SKINS GARANTIS]", price: 5.00, stock: 420, rating: "4.7", color: "#8b5cf6", logo: "https://cdn.simpleicons.org/epicgames/ffffff", desc: "Compte aléatoire avec anciens battlepass et emotes." },
+      { id: 25, category: "Gaming", title: "Steam", badge: "[COMPTE VÉRIFIÉ]", price: 3.00, stock: 890, rating: "4.8", color: "#00adee", logo: "https://cdn.simpleicons.org/steam/00adee", desc: "Compte avec badge de niveau et jeux aléatoires." }
+    ];
+
+    const categoryIcons = {
+      "Streaming": "ticket",
+      "Salles de sport": "dumbbell",
+      "Food & Boisson": "coffee",
+      "Paiement & Fintech": "credit-card",
+      "IA & Logiciels": "terminal",
+      "Gaming": "gamepad-2"
+    };
+
+    let products = JSON.parse(localStorage.getItem('guaya_products_v9')) || initialProducts;
+    let cart = [];
+    let currentCategory = "All";
+    let searchQuery = "";
+    let selectedPayment = "IBAN";
+    let activeDetailProduct = null;
+    let detailQtyValue = 1;
+    let discordAccount = JSON.parse(localStorage.getItem('guaya_discord_user')) || null;
+
+    let orders = JSON.parse(localStorage.getItem('guaya_orders_list')) || [];
+    let chatMessages = JSON.parse(localStorage.getItem('guaya_chat_messages')) || [
+      { sender: "support", text: "Bonjour ! Comment pouvons-nous t'aider sur Guaya Shop ?", time: "À l'instant" }
+    ];
+
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      let filtered = products;
+
+      if (currentCategory !== "All") filtered = filtered.filter(p => p.category === currentCategory);
+      if (searchQuery) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchQuery) || p.badge.toLowerCase().includes(searchQuery));
+
+      document.getElementById('productCountBadge').innerText = `${filtered.length} ARTICLE${filtered.length > 1 ? 'S' : ''}`;
+      grid.innerHTML = filtered.map(prod => `
+        <div onclick="openProductDetail(${prod.id})" class="vip-card-box p-4 flex flex-col justify-between cursor-pointer group">
+          <div class="mockup-container">
+            <div class="absolute inset-0 opacity-45 group-hover:opacity-85 transition duration-500" style="background: radial-gradient(circle at 50% 30%, ${prod.color} 0%, transparent 68%);"></div>
+            
+            <div class="mockup-credit-card">
+              <span class="text-[7px] font-mono tracking-widest text-bronzeMuted uppercase">RM Reselling</span>
+              <span class="text-[9px] font-bold tracking-wider text-white uppercase mt-1.5 mb-0.5">${prod.title}</span>
+              <span class="text-[8px] font-black tracking-widest uppercase mb-2" style="color: ${prod.color};">${prod.badge.replace(/[\[\]]/g, '')}</span>
+              
+              <div class="w-14 h-14 flex items-center justify-center p-2 rounded-xl border border-white/10 shadow-2xl transition duration-300 group-hover:scale-110" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
+                <img src="${prod.logo}" alt="${prod.title}" class="max-h-10 max-w-10 object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]" onerror="this.src='https://cdn.simpleicons.org/speedtest/ffffff'">
+              </div>
+            </div>
+
+            <div class="mockup-envelope">
+              <div class="w-12 h-0.5 rounded-full bg-white/25 mb-1"></div>
+              <span class="text-[8px] font-mono tracking-widest text-bronzeMuted uppercase">PREMIUM ACCESS</span>
+            </div>
+          </div>
+
+          <div class="pt-5 flex flex-col flex-1">
+            <h3 class="font-serif font-bold text-lg text-white leading-tight group-hover:text-amber-300 transition">${prod.title}</h3>
+            <span class="text-[11px] font-mono text-bronzeMuted tracking-wider mb-3 block">${prod.badge}</span>
+            
+            <div class="flex items-baseline gap-1.5 mb-2">
+              <span class="text-[10px] uppercase font-mono text-bronzeMuted">FROM</span>
+              <span class="text-xl font-serif font-extrabold text-white">€${Number(prod.price).toFixed(2)}</span>
+            </div>
+
+            <div class="flex items-center gap-1.5 text-[11px] font-mono text-bronzeMuted mb-4">
+              <span class="text-goldStar font-bold">★ ${prod.rating}</span>
+              <span>•</span>
+              <span>${prod.stock} AVAILABLE</span>
+            </div>
+
+            <button class="w-full btn-choose-pill py-2.5 text-xs font-semibold flex items-center justify-center gap-1 mt-auto">
+              <span>Choose version</span>
+              <span class="text-bronzeMuted">></span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function openProductDetail(id) {
+      const prod = products.find(p => p.id === id);
+      if (!prod) return;
+
+      activeDetailProduct = prod;
+      detailQtyValue = 1;
+
+      document.getElementById('detailCategory').innerText = `${prod.category} • ${prod.badge}`;
+      document.getElementById('detailTitle').innerText = prod.title;
+      document.getElementById('detailDesc').innerText = prod.desc;
+      updateDetailPriceDisplay();
+
+      document.getElementById('detailAddToCartBtn').onclick = () => {
+        for (let i = 0; i < detailQtyValue; i++) cart.push(prod);
+        updateCartBadge();
+        closeProductDetail();
+      };
+
+      document.getElementById('detailBuyNowBtn').onclick = () => {
+        for (let i = 0; i < detailQtyValue; i++) cart.push(prod);
+        updateCartBadge();
+        closeProductDetail();
+        showView('checkout');
+      };
+
+      document.getElementById('productDetailModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeProductDetail() {
+      document.getElementById('productDetailModal').classList.add('hidden');
+    }
+
+    function changeDetailQty(delta) {
+      detailQtyValue = Math.max(1, detailQtyValue + delta);
+      document.getElementById('detailQty').innerText = detailQtyValue;
+      updateDetailPriceDisplay();
+    }
+
+    function updateDetailPriceDisplay() {
+      if (!activeDetailProduct) return;
+      const total = activeDetailProduct.price * detailQtyValue;
+      document.getElementById('detailPrice').innerText = `€${total.toFixed(2)}`;
+    }
+
+    function updateCartBadge() {
+      document.getElementById('cartCountBadge').innerText = cart.length;
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      updateCartBadge();
+      updateCheckoutDisplay();
+    }
+
+    function showView(viewName) {
+      document.getElementById('view-home').classList.add('hide');
+      document.getElementById('view-checkout').classList.add('hide');
+      document.getElementById('view-' + viewName).classList.remove('hide');
+      if (viewName === 'checkout') {
+        updateCheckoutDisplay();
+        renderPaymentInstructions();
+      }
+      window.scrollTo(0, 0);
+    }
+
+    function updateCheckoutDisplay() {
+      const container = document.getElementById('checkoutItemsList');
+      if (cart.length === 0) {
+        container.innerHTML = `<div class="text-xs text-bronzeMuted py-4">Ton panier est vide.</div>`;
+        document.getElementById('checkoutSubtotal').innerText = "€0.00";
+        document.getElementById('checkoutFees').innerText = "€0.00";
+        document.getElementById('checkoutTotal').innerText = "€0.00";
+        return;
+      }
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="flex justify-between items-center bg-[#0e0a08] p-3 rounded-2xl border border-[#281d18]">
+          <div class="flex-1 pr-2">
+            <div class="text-xs font-bold text-white truncate font-serif">${item.title}</div>
+            <div class="text-[10px] text-bronzeMuted font-mono">1 x €${Number(item.price).toFixed(2)}</div>
+          </div>
+          <button onclick="removeFromCart(${idx})" class="text-bronzeMuted hover:text-red-400 p-1">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join('');
+
+      const subtotal = cart.reduce((acc, cur) => acc + Number(cur.price), 0);
+      const fees = subtotal * 0.05;
+      const total = subtotal + fees;
+
+      document.getElementById('checkoutSubtotal').innerText = `€${subtotal.toFixed(2)}`;
+      document.getElementById('checkoutFees').innerText = `€${fees.toFixed(2)}`;
+      document.getElementById('checkoutTotal').innerText = `€${total.toFixed(2)}`;
+      lucide.createIcons();
+    }
+
+    function selectPayment(gateway) {
+      selectedPayment = gateway;
+      ['IBAN', 'PayPal', 'BTC', 'LTC', 'SOL', 'ETH'].forEach(m => {
+        const btn = document.getElementById('payBtn-' + m);
+        if (btn) {
+          if (m === gateway) {
+            btn.className = "pay-btn border border-amber-600/80 bg-amber-500/10 rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center shadow-lg shadow-orange-950/40";
+          } else {
+            btn.className = "pay-btn border border-[#281d18] bg-[#140f0c] rounded-2xl p-4 flex flex-col items-center gap-1.5 transition text-center hover:border-[#422e25]";
+          }
+        }
+      });
+      renderPaymentInstructions();
+    }
+
+    function renderPaymentInstructions() {
+      const box = document.getElementById('paymentInstructionsBox');
+      const totalRaw = document.getElementById('checkoutTotal').innerText.replace('€', '').trim();
+      const total = document.getElementById('checkoutTotal').innerText;
+
+      if (selectedPayment === 'IBAN') {
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-emerald-400 font-bold"><i data-lucide="building" class="w-4 h-4"></i> Virement Bancaire (IBAN)</div>
+          <p class="text-gray-300 leading-relaxed text-xs">
+            Effectue un virement de <b>${total}</b> vers l'IBAN ci-dessous. 
+            <span class="text-amber-400 font-bold block mt-1">⚠️ Le numéro de commande généré doit obligatoirement figurer dans le motif du virement.</span>
+          </p>
+          <div class="bg-[#0b0806] p-3.5 rounded-xl border border-[#281d18] flex items-center justify-between font-mono text-xs text-emerald-400 select-all">
+            <span class="truncate">${siteSettings.iban}</span>
+            <button onclick="navigator.clipboard.writeText('${siteSettings.iban}'); alert('IBAN copié !')" class="text-xs bg-[#241a15] hover:bg-[#33241d] text-white px-3 py-1 rounded-full ml-2 font-sans font-bold">Copier</button>
+          </div>
+        `;
+      } else if (selectedPayment === 'PayPal') {
+        const paypalAmountUrl = `${siteSettings.paypalMe}/${totalRaw}`;
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-sky-400 font-bold"><i data-lucide="wallet" class="w-4 h-4"></i> Paiement Direct PayPal</div>
+          <p class="text-gray-300 text-xs leading-relaxed">Clique ci-dessous pour payer sur PayPal. <b>Sélectionne obligatoirement « Entre proches »</b>.</p>
+          <div class="pt-2">
+            <a href="${paypalAmountUrl}" target="_blank" class="w-full py-3 bg-[#0070ba] hover:bg-[#005ea6] text-white font-bold rounded-full text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-sky-950/40">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Ouvrir PayPal (${total})
+            </a>
+          </div>
+        `;
+      } else if (selectedPayment === 'BTC') {
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-amber-500 font-bold"><i data-lucide="bitcoin" class="w-4 h-4"></i> Bitcoin (BTC)</div>
+          <p class="text-gray-300 text-xs">Envoie l'équivalent de <b>${total}</b> à cette adresse :</p>
+          <div class="bg-[#0b0806] p-3 rounded-xl border border-[#281d18] flex items-center justify-between font-mono text-[11px] text-amber-400 select-all">
+            <span class="truncate">${siteSettings.btcAddress}</span>
+            <button onclick="navigator.clipboard.writeText('${siteSettings.btcAddress}'); alert('Adresse BTC copiée !')" class="text-xs bg-[#241a15] hover:bg-[#33241d] text-white px-2.5 py-1 rounded-full ml-2 font-sans font-bold">Copier</button>
+          </div>
+        `;
+      } else if (selectedPayment === 'LTC') {
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-slate-300 font-bold"><i data-lucide="coins" class="w-4 h-4"></i> Litecoin (LTC)</div>
+          <p class="text-gray-300 text-xs">Envoie l'équivalent de <b>${total}</b> à cette adresse :</p>
+          <div class="bg-[#0b0806] p-3 rounded-xl border border-[#281d18] flex items-center justify-between font-mono text-[11px] text-amber-400 select-all">
+            <span class="truncate">${siteSettings.ltcAddress}</span>
+            <button onclick="navigator.clipboard.writeText('${siteSettings.ltcAddress}'); alert('Adresse LTC copiée !')" class="text-xs bg-[#241a15] hover:bg-[#33241d] text-white px-2.5 py-1 rounded-full ml-2 font-sans font-bold">Copier</button>
+          </div>
+        `;
+      } else if (selectedPayment === 'SOL') {
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-purple-400 font-bold"><i data-lucide="zap" class="w-4 h-4"></i> Solana (SOL)</div>
+          <p class="text-gray-300 text-xs">Envoie l'équivalent de <b>${total}</b> à cette adresse :</p>
+          <div class="bg-[#0b0806] p-3 rounded-xl border border-[#281d18] flex items-center justify-between font-mono text-[11px] text-purple-400 select-all">
+            <span class="truncate">${siteSettings.solAddress}</span>
+            <button onclick="navigator.clipboard.writeText('${siteSettings.solAddress}'); alert('Adresse SOL copiée !')" class="text-xs bg-[#241a15] hover:bg-[#33241d] text-white px-2.5 py-1 rounded-full ml-2 font-sans font-bold">Copier</button>
+          </div>
+        `;
+      } else if (selectedPayment === 'ETH') {
+        box.innerHTML = `
+          <div class="flex items-center gap-2 text-indigo-400 font-bold"><i data-lucide="gem" class="w-4 h-4"></i> Ethereum (ETH)</div>
+          <p class="text-gray-300 text-xs">Envoie l'équivalent de <b>${total}</b> à cette adresse :</p>
+          <div class="bg-[#0b0806] p-3 rounded-xl border border-[#281d18] flex items-center justify-between font-mono text-[11px] text-indigo-400 select-all">
+            <span class="truncate">${siteSettings.ethAddress}</span>
+            <button onclick="navigator.clipboard.writeText('${siteSettings.ethAddress}'); alert('Adresse ETH copiée !')" class="text-xs bg-[#241a15] hover:bg-[#33241d] text-white px-2.5 py-1 rounded-full ml-2 font-sans font-bold">Copier</button>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    // VALIDATION DU PANIER & CRÉATION DU TICKET DISCORD
+    async function processCheckout() {
+      if (cart.length === 0) {
+        alert("Ton panier est vide !");
+        return;
+      }
+
+      const orderId = "G-" + Math.floor(1000 + Math.random() * 9000);
+      const totalStr = document.getElementById('checkoutTotal').innerText.replace('€', '').trim();
+      const discordUser = discordAccount ? discordAccount.username : "Non renseigné";
+      const discordId = discordAccount ? discordAccount.id : null;
+      const email = document.getElementById('deliveryEmail').value.trim() || "Non spécifié";
+      const itemsList = cart.map(c => c.title).join(', ');
+
+      // 1. Enregistrement local
+      const orderData = {
+        id: "#" + orderId,
+        date: new Date().toLocaleString("fr-FR"),
+        method: selectedPayment,
+        total: document.getElementById('checkoutTotal').innerText,
+        discord: discordUser,
+        discordId: discordId,
+        email: email,
+        items: cart.map(c => c.title),
+        status: "En attente"
+      };
+
+      orders.unshift(orderData);
+      localStorage.setItem('guaya_orders_list', JSON.stringify(orders));
+      updateAdminOrdersBadge();
+
+      // 2. Appel au Bot Discord avec toutes les données
+      let ticketCreated = false;
+      try {
+        const response = await fetch(`${siteSettings.botApiUrl}/api/order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId: orderId,
+            item: itemsList,
+            price: totalStr,
+            paymentMethod: selectedPayment,
+            email: email,
+            discordId: discordId
+          })
+        });
+
+        const resData = await response.json();
+        if (resData.success) {
+          ticketCreated = true;
+          console.log("Salon ticket ouvert :", resData.channelId);
+        }
+      } catch (err) {
+        console.warn("API Bot inaccessible :", err);
+      }
+
+      // 3. Notification utilisateur
+      const ticketInfo = ticketCreated 
+        ? "✅ Ton salon ticket privé a été créé sur notre Discord !" 
+        : "ℹ️ Commande bien enregistrée dans le panel.";
+
+      if (selectedPayment === 'IBAN') {
+        alert(`Commande #${orderId} validée !\n\n${ticketInfo}\n\nEffectue ton virement vers :\n${siteSettings.iban}\n\n⚠️ MOTIF OBLIGATOIRE : #${orderId}`);
+      } else if (selectedPayment === 'PayPal') {
+        window.open(`${siteSettings.paypalMe}/${totalStr}`, '_blank');
+        alert(`Commande #${orderId} validée !\n\n${ticketInfo}\n\nFinalise le virement PayPal pour déclencher la livraison.`);
+      } else {
+        alert(`Commande #${orderId} validée !\n\n${ticketInfo}`);
+      }
+
+      cart = [];
+      updateCartBadge();
+      showView('home');
+    }
+
+    // GESTION DES COMMANDES (PANEL ADMIN)
+    function renderAdminOrders() {
+      const container = document.getElementById('adminOrdersList');
+      const counter = document.getElementById('tabOrderCounter');
+      counter.innerText = orders.filter(o => o.status === "En attente").length;
+
+      if (orders.length === 0) {
+        container.innerHTML = `<div class="text-xs text-bronzeMuted py-8 text-center">Aucune commande enregistrée.</div>`;
+        return;
+      }
+
+      container.innerHTML = orders.map((ord, idx) => {
+        let badgeColor = "bg-amber-500/20 text-amber-400 border-amber-500/30";
+        if (ord.status === "Validée") badgeColor = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+        if (ord.status === "Refusée") badgeColor = "bg-red-500/20 text-red-400 border-red-500/30";
+
+        return `
+          <div class="p-4 rounded-2xl bg-[#0b0806] border border-[#281d18] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-serif font-black text-white text-sm">${ord.id}</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full border ${badgeColor}">${ord.status}</span>
+                <span class="text-[10px] text-bronzeMuted font-mono">${ord.date}</span>
+              </div>
+              <div class="text-xs text-gray-300">
+                <span class="font-bold text-white">${ord.total}</span> via <span class="text-amber-300 font-mono">${ord.method}</span> • Client : <span class="text-[#8b94f8] font-bold">${ord.discord} ${ord.discordId ? `(${ord.discordId})` : ''}</span>
+              </div>
+              <div class="text-[11px] text-bronzeMuted italic truncate max-w-lg">Articles : ${ord.items.join(', ')}</div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              <button onclick="updateOrderStatus(${idx}, 'Validée')" class="px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs font-bold transition flex items-center gap-1">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i> Valider
+              </button>
+              <button onclick="updateOrderStatus(${idx}, 'Refusée')" class="px-3 py-1.5 rounded-full bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs font-bold transition flex items-center gap-1">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i> Refuser
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function updateOrderStatus(idx, newStatus) {
+      orders[idx].status = newStatus;
+      localStorage.setItem('guaya_orders_list', JSON.stringify(orders));
+      renderAdminOrders();
+      updateAdminOrdersBadge();
+    }
+
+    function clearAllOrders() {
+      if (confirm("Supprimer l'historique complet des commandes ?")) {
+        orders = [];
+        localStorage.setItem('guaya_orders_list', JSON.stringify(orders));
+        renderAdminOrders();
+        updateAdminOrdersBadge();
+      }
+    }
+
+    function updateAdminOrdersBadge() {
+      const pendingCount = orders.filter(o => o.status === "En attente").length;
+      const badge = document.getElementById('adminPendingBadge');
+      if (pendingCount > 0) {
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    // CHAT ASSISTANCE WIDGET & ADMIN
+    function toggleChatWidget() {
+      const chat = document.getElementById('chatWidgetBox');
+      chat.classList.toggle('hide');
+      renderChatMessages();
+    }
+
+    function renderChatMessages() {
+      const custBox = document.getElementById('chatMessagesList');
+      const admBox = document.getElementById('adminChatMessagesList');
+
+      const html = chatMessages.map(m => `
+        <div class="flex flex-col ${m.sender === 'client' ? 'items-end' : 'items-start'}">
+          <div class="px-3.5 py-2 rounded-2xl max-w-[85%] text-xs ${m.sender === 'client' ? 'bg-amber-600 text-white' : 'bg-[#241a15] text-gray-200 border border-[#38261e]'}">
+            ${m.text}
+          </div>
+          <span class="text-[9px] text-bronzeMuted mt-0.5 px-1">${m.time}</span>
+        </div>
+      `).join('');
+
+      if (custBox) custBox.innerHTML = html;
+      if (admBox) admBox.innerHTML = html;
+      if (custBox) custBox.scrollTop = custBox.scrollHeight;
+      if (admBox) admBox.scrollTop = admBox.scrollHeight;
+    }
+
+    function handleCustomerSendMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInputCustomer');
+      const text = input.value.trim();
+      if (!text) return;
+
+      chatMessages.push({
+        sender: "client",
+        text: text,
+        time: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' })
+      });
+      localStorage.setItem('guaya_chat_messages', JSON.stringify(chatMessages));
+      input.value = "";
+      renderChatMessages();
+    }
+
+    function handleAdminSendMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInputAdmin');
+      const text = input.value.trim();
+      if (!text) return;
+
+      chatMessages.push({
+        sender: "support",
+        text: text,
+        time: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' })
+      });
+      localStorage.setItem('guaya_chat_messages', JSON.stringify(chatMessages));
+      input.value = "";
+      renderChatMessages();
+    }
+
+    // MODAL AUTH ADMIN
+    function openAdminAuthModal() {
+      document.getElementById('adminAuthModal').classList.remove('hidden');
+    }
+    function closeAdminAuthModal() {
+      document.getElementById('adminAuthModal').classList.add('hidden');
+    }
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('authAdminId').value.trim();
+      const p = document.getElementById('authAdminPass').value.trim();
+      if (u === AUTH_CREDS.user && p === AUTH_CREDS.pass) {
+        closeAdminAuthModal();
+        openSuperAdmin();
+      } else {
+        alert("Identifiants admin incorrects !");
+      }
+    }
+    function openSuperAdmin() {
+      populateGeneralSettingsFields();
+      renderAdminOrders();
+      renderAdminProductsList();
+      renderChatMessages();
+      document.getElementById('adminModal').classList.remove('hidden');
+    }
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+      resetAdminForm();
+    }
+    function switchAdminTab(tab) {
+      ['orders', 'chat', 'products', 'general'].forEach(t => {
+        const pane = document.getElementById('adminTab-' + t);
+        const btn = document.getElementById('tabBtn-' + t);
+        if (t === tab) {
+          pane.classList.remove('hide');
+          btn.className = "px-4 py-1.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-2";
+        } else {
+          pane.classList.add('hide');
+          btn.className = "px-4 py-1.5 rounded-full font-bold text-bronzeMuted hover:text-white flex items-center gap-2";
+        }
+      });
+      if (tab === 'orders') renderAdminOrders();
+      if (tab === 'chat') renderChatMessages();
+    }
+
+    function renderAdminProductsList() {
+      const container = document.getElementById('adminItemsList');
+      container.innerHTML = products.map(item => `
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-[#0b0806] border border-[#281d18]">
+          <div class="flex-1 pr-3 truncate">
+            <span class="font-serif font-bold text-white text-xs block truncate">${item.title}</span>
+            <span class="text-[10px] text-bronzeMuted font-mono">${item.category} • €${Number(item.price).toFixed(2)}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="prepareEditProduct(${item.id})" class="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 text-xs font-bold">Modifier</button>
+            <button onclick="deleteProduct(${item.id})" class="px-2.5 py-1 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-bold">Supprimer</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function prepareEditProduct(id) {
+      const prod = products.find(p => p.id === id);
+      if (!prod) return;
+      document.getElementById('editProductId').value = prod.id;
+      document.getElementById('admTitle').value = prod.title;
+      document.getElementById('admPrice').value = prod.price;
+      document.getElementById('admCat').value = prod.category;
+      document.getElementById('admColor').value = prod.color;
+      document.getElementById('admDesc').value = prod.desc;
+      document.getElementById('adminFormTitle').innerText = "Modifier : " + prod.title;
+      document.getElementById('cancelEditBtn').classList.remove('hidden');
+    }
+
+    function resetAdminForm() {
+      document.getElementById('editProductId').value = "";
+      document.getElementById('admTitle').value = "";
+      document.getElementById('admPrice').value = "";
+      document.getElementById('admCat').value = "";
+      document.getElementById('admColor').value = "";
+      document.getElementById('admDesc').value = "";
+      document.getElementById('adminFormTitle').innerText = "Ajouter un produit";
+      document.getElementById('cancelEditBtn').classList.add('hidden');
+    }
+
+    function saveAdminProduct() {
+      const editId = document.getElementById('editProductId').value;
+      const title = document.getElementById('admTitle').value.trim();
+      const price = parseFloat(document.getElementById('admPrice').value);
+      const cat = document.getElementById('admCat').value.trim();
+      const color = document.getElementById('admColor').value.trim() || "#e50914";
+      const desc = document.getElementById('admDesc').value.trim();
+
+      if (!title || isNaN(price) || !cat) {
+        alert("Champs incomplets !");
+        return;
+      }
+      if (editId) {
+        const idx = products.findIndex(p => p.id == editId);
+        if (idx !== -1) products[idx] = { ...products[idx], title, price, category: cat, color, desc };
+      } else {
+        products.unshift({
+          id: Date.now(),
+          title,
+          badge: "[OFFRE]",
+          price,
+          category: cat,
+          stock: 500,
+          rating: "4.9",
+          color,
+          logo: "https://cdn.simpleicons.org/speedtest/ffffff",
+          desc
+        });
+      }
+      localStorage.setItem('guaya_products_v9', JSON.stringify(products));
+      renderAdminProductsList();
+      renderCategories();
+      renderProducts();
+      resetAdminForm();
+      alert("Catalogue mis à jour !");
+    }
+
+    function deleteProduct(id) {
+      if (confirm("Supprimer cet article ?")) {
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('guaya_products_v9', JSON.stringify(products));
+        renderAdminProductsList();
+        renderCategories();
+        renderProducts();
+      }
+    }
+
+    function populateGeneralSettingsFields() {
+      document.getElementById('cfgIban').value = siteSettings.iban;
+      document.getElementById('cfgBotApi').value = siteSettings.botApiUrl;
+      document.getElementById('cfgBtc').value = siteSettings.btcAddress;
+      document.getElementById('cfgLtc').value = siteSettings.ltcAddress;
+      document.getElementById('cfgSol').value = siteSettings.solAddress;
+      document.getElementById('cfgEth').value = siteSettings.ethAddress;
+      document.getElementById('cfgPaypal').value = siteSettings.paypalMe;
+    }
+
+    function saveGeneralSettings() {
+      siteSettings.iban = document.getElementById('cfgIban').value.trim();
+      siteSettings.botApiUrl = document.getElementById('cfgBotApi').value.trim() || "https://guaya-bot.onrender.com";
+      siteSettings.btcAddress = document.getElementById('cfgBtc').value.trim();
+      siteSettings.ltcAddress = document.getElementById('cfgLtc').value.trim();
+      siteSettings.solAddress = document.getElementById('cfgSol').value.trim();
+      siteSettings.ethAddress = document.getElementById('cfgEth').value.trim();
+      siteSettings.paypalMe = document.getElementById('cfgPaypal').value.trim();
+
+      localStorage.setItem('guaya_settings_v9', JSON.stringify(siteSettings));
+      renderPaymentInstructions();
+      alert("Coordonnées et URL Bot API enregistrées !");
+    }
+
+    function renderCategories() {
+      const categories = ["All", ...new Set(products.map(p => p.category))];
+      const container = document.getElementById('categoryNav');
+      container.innerHTML = categories.map(cat => {
+        const icon = cat === "All" ? "layout-grid" : (categoryIcons[cat] || "box");
+        const isActive = currentCategory === cat;
+        return `
+          <button onclick="setCategory('${cat}')" class="flex items-center gap-2 whitespace-nowrap transition-colors font-medium pb-2 ${isActive ? 'text-white border-b-2 border-amber-500' : 'text-bronzeMuted hover:text-white'}">
+            <i data-lucide="${icon}" class="w-3.5 h-3.5"></i>
+            <span>${cat === "All" ? "Tous les articles" : cat}</span>
+          </button>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderProducts();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val.toLowerCase().trim();
+      renderProducts();
+    }
+
+    function updateDiscordUI() {
+      if (discordAccount) {
+        document.getElementById('discordUserText').innerText = discordAccount.username;
+        document.getElementById('discordStatusBadge').innerText = `Lié : ${discordAccount.username}`;
+        document.getElementById('discordStatusBadge').className = "text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+    }
+
+    updateDiscordUI();
+    renderCategories();
+    renderProducts();
+    updateAdminOrdersBadge();
+    renderChatMessages();
+    lucide.createIcons();
+  </script>
+</body>
+</html>
